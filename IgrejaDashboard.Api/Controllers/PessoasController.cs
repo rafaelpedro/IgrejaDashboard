@@ -26,7 +26,6 @@ namespace IgrejaDashboard.Api.Controllers
             return Ok(pessoas);
         }
 
-
         // GET /api/pessoas/dashboard
         [HttpGet("dashboard")]
         public ActionResult<object> GetDashboard()
@@ -38,7 +37,6 @@ namespace IgrejaDashboard.Api.Controllers
             return Ok(new { total, masculinos, femininos });
         }
 
-
         // POST /api/pessoas
         [HttpPost]
         public ActionResult<Pessoa> AddPessoa(Pessoa pessoa)
@@ -49,7 +47,6 @@ namespace IgrejaDashboard.Api.Controllers
 
             return CreatedAtAction(nameof(GetPessoas), new { id = pessoa.Codigo }, pessoa);
         }
-
 
         // PUT /api/pessoas/{id}
         [HttpPut("{id}")]
@@ -66,7 +63,6 @@ namespace IgrejaDashboard.Api.Controllers
 
             return NoContent();
         }
-
 
         // DELETE /api/pessoas/{id}
         [HttpDelete("{id}")]

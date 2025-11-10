@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IgrejaDashboard.Api.Data;
 using IgrejaDashboard.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace IgrejaDashboard.Api.Controllers
 {
@@ -8,71 +9,73 @@ namespace IgrejaDashboard.Api.Controllers
     [Route("api/[controller]")]
     public class PessoasController : ControllerBase
     {
+        private readonly AppDbContext _context;
+
+        public PessoasController(AppDbContext context)
+        {
+            _context = context;
+        }
 
         // GET /api/pessoas
         [HttpGet]
-        public ActionResult<IEnumerable<Pessoa>> GetPessoas([FromQuery] string? search)
+        public async Task<ActionResult<IEnumerable<Pessoa>>> GetPessoas([FromQuery] string? search)
         {
-            var pessoas = FakeDatabase.Pessoas.AsQueryable();
+            var query = _context.Pessoas.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                pessoas = pessoas.Where(p =>
-                    p.Nome.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    p.Email.Contains(search, StringComparison.OrdinalIgnoreCase)
-                );
+                query = query.Where(p =>
+                    p.Nome.Contains(search) ||
+                    p.Email.Contains(search));
             }
 
-            return Ok(pessoas);
+            return await query.ToListAsync();
         }
 
         // GET /api/pessoas/dashboard
         [HttpGet("dashboard")]
-        public ActionResult<object> GetDashboard()
+        public async Task<ActionResult<object>> GetDashboard()
         {
-            var total = FakeDatabase.Pessoas.Count;
-            var masculinos = FakeDatabase.Pessoas.Count(p => p.Sexo == "Masculino");
-            var femininos = FakeDatabase.Pessoas.Count(p => p.Sexo == "Feminino");
+            var total = await _context.Pessoas.CountAsync();
+            var masculinos = await _context.Pessoas.CountAsync(p => p.Sexo == "Masculino");
+            var femininos = await _context.Pessoas.CountAsync(p => p.Sexo == "Feminino");
 
             return Ok(new { total, masculinos, femininos });
         }
 
         // POST /api/pessoas
         [HttpPost]
-        public ActionResult<Pessoa> AddPessoa(Pessoa pessoa)
+        public async Task<ActionResult<Pessoa>> AddPessoa(Pessoa pessoa)
         {
-            var nextId = FakeDatabase.Pessoas.Max(p => p.Codigo) + 1;
-            pessoa.Codigo = nextId;
-            FakeDatabase.Pessoas.Add(pessoa);
+            _context.Pessoas.Add(pessoa);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPessoas), new { id = pessoa.Codigo }, pessoa);
         }
 
         // PUT /api/pessoas/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdatePessoa(int id, Pessoa pessoa)
+        public async Task<IActionResult> UpdatePessoa(int id, Pessoa pessoa)
         {
-            var existing = FakeDatabase.Pessoas.FirstOrDefault(p => p.Codigo == id);
-            if (existing == null)
-                return NotFound();
+            if (id != pessoa.Codigo)
+                return BadRequest();
 
-            existing.Nome = pessoa.Nome;
-            existing.Email = pessoa.Email;
-            existing.Sexo = pessoa.Sexo;
-            existing.Status = pessoa.Status;
+            _context.Entry(pessoa).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
         // DELETE /api/pessoas/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeletePessoa(int id)
+        public async Task<IActionResult> DeletePessoa(int id)
         {
-            var pessoa = FakeDatabase.Pessoas.FirstOrDefault(p => p.Codigo == id);
+            var pessoa = await _context.Pessoas.FindAsync(id);
             if (pessoa == null)
                 return NotFound();
 
-            FakeDatabase.Pessoas.Remove(pessoa);
+            _context.Pessoas.Remove(pessoa);
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }

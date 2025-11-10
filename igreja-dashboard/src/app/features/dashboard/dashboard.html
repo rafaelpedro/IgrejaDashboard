@@ -1,0 +1,128 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold">Dashboard da Igreja</h2>
+    <!-- <nav>
+      <a class="me-3 text-decoration-none text-secondary" href="#">Início</a>
+      <a class="me-3 text-decoration-none text-secondary" href="#">Membros</a>
+      <a class="text-decoration-none text-secondary" href="#">Relatórios</a>
+    </nav> -->
+  </div>
+
+  <!-- Cards -->
+  <div class="row text-white mb-4">
+    <div class="col-md-4 mb-3">
+      <div class="card bg-primary shadow-sm text-center">
+        <div class="card-body">
+          <h5 class="card-title">Total de Membros</h5>
+          <h1>{{ totais.total }}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card bg-success shadow-sm text-center">
+        <div class="card-body">
+          <h5 class="card-title">Masculinos</h5>
+          <h1>{{ totais.masculinos }}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card bg-danger shadow-sm text-center">
+        <div class="card-body">
+          <h5 class="card-title">Femininos</h5>
+          <h1>{{ totais.femininos }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de busca e botão -->
+  <div class="d-flex justify-content-between mb-3">
+    <div class="input-group w-50">
+      <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Pesquisar por nome ou e-mail">
+      <button class="btn btn-outline-primary" (click)="buscar()">Buscar</button>
+    </div>
+    <button class="btn btn-primary" (click)="abrirModal()">
+      <i class="bi bi-person-plus"></i> Adicionar Membro
+    </button>
+  </div>
+
+  <!-- Tabela -->
+  <table class="table table-striped table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Gênero</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pessoa of pessoas">
+        <td>{{ pessoa.nome }}</td>
+        <td>{{ pessoa.email }}</td>
+        <td>{{ pessoa.sexo }}</td>
+        <td>
+          <span class="badge bg-secondary">{{ pessoa.status }}</span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-outline-warning me-2" (click)="editarPessoa(pessoa)">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="excluirPessoa(pessoa.codigo)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal Bootstrap -->
+  <div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': mostrarModal }">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ editando ? 'Editar Pessoa' : 'Adicionar Pessoa' }}</h5>
+          <button type="button" class="btn-close" (click)="fecharModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="salvarPessoa()">
+            <div class="mb-3">
+              <label class="form-label">Nome</label>
+              <input type="text" class="form-control" [(ngModel)]="pessoaAtual.nome" name="nome" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">E-mail</label>
+              <input type="email" class="form-control" [(ngModel)]="pessoaAtual.email" name="email" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Sexo</label>
+              <select class="form-select" [(ngModel)]="pessoaAtual.sexo" name="sexo" required>
+                <option value="">Selecione</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <select class="form-select" [(ngModel)]="pessoaAtual.status" name="status" required>
+                <option value="">Selecione</option>
+                <option value="Membro">Membro</option>
+                <option value="Visitante">Visitante</option>
+              </select>
+            </div>
+
+            <div class="text-end">
+              <button type="submit" class="btn btn-success me-2">{{ editando ? 'Salvar' : 'Adicionar' }}</button>
+              <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

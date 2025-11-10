@@ -1,0 +1,76 @@
+import { Component, OnInit } from '@angular/core';
+import { DashboardService } from './dashboard.service';
+import { Pessoa } from '../../models/pessoa.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-dashboard',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './dashboard.html',
+  styleUrls: ['./dashboard.scss']
+})
+export class DashboardComponent implements OnInit {
+   pessoas: Pessoa[] = [];
+  totais = { total: 0, masculinos: 0, femininos: 0 };
+  searchTerm = '';
+
+  mostrarModal = false;
+  editando = false;
+  pessoaAtual: Pessoa = this.criarNovaPessoa();
+
+  constructor(private dashboardService: DashboardService) {}
+
+  ngOnInit(): void {
+    this.carregarDados();
+  }
+
+  carregarDados(): void {
+    this.dashboardService.getDashboard().subscribe(d => this.totais = d);
+    this.dashboardService.getPessoas().subscribe(p => this.pessoas = p);
+  }
+
+  buscar(): void {
+    this.dashboardService.getPessoas(this.searchTerm).subscribe(p => this.pessoas = p);
+  }
+
+  abrirModal(): void {
+    this.mostrarModal = true;
+    this.editando = false;
+    this.pessoaAtual = this.criarNovaPessoa();
+  }
+
+  fecharModal(): void {
+    this.mostrarModal = false;
+  }
+
+  editarPessoa(pessoa: Pessoa): void {
+    this.pessoaAtual = { ...pessoa };
+    this.mostrarModal = true;
+    this.editando = true;
+  }
+
+  salvarPessoa(): void {
+    if (this.editando) {
+      this.dashboardService.updatePessoa(this.pessoaAtual.codigo, this.pessoaAtual).subscribe(() => {
+        this.fecharModal();
+        this.carregarDados();
+      });
+    } else {
+      this.dashboardService.addPessoa(this.pessoaAtual).subscribe(() => {
+        this.fecharModal();
+        this.carregarDados();
+      });
+    }
+  }
+
+  excluirPessoa(id: number): void {
+    if (confirm('Tem certeza que deseja excluir este membro?')) {
+      this.dashboardService.deletePessoa(id).subscribe(() => this.carregarDados());
+    }
+  }
+
+  private criarNovaPessoa(): Pessoa {
+    return { codigo: 0, nome: '', email: '', sexo: '', status: '' };
+  }
+}

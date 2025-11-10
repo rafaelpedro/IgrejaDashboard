@@ -361,3 +361,17 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# =========================
+# ANGULAR / FRONTEND BUILD
+# =========================
+# Diretórios do Angular
+igreja-dashboard/node_modules/
+igreja-dashboard/dist/
+igreja-dashboard/.angular/
+igreja-dashboard/.vs/
+
+# Logs e arquivos temporários
+igreja-dashboard/npm-debug.log*
+igreja-dashboard/yarn-error.log*
+igreja-dashboard/package-lock.json

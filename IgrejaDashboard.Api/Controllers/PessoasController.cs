@@ -2,6 +2,7 @@
 using IgrejaDashboard.Api.Data;
 using IgrejaDashboard.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace IgrejaDashboard.Api.Controllers
 {
@@ -55,14 +56,27 @@ namespace IgrejaDashboard.Api.Controllers
 
         // PUT /api/pessoas/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePessoa(int id, Pessoa pessoa)
+        public async Task<IActionResult> UpdatePessoa(int id, [FromBody] JsonElement updates)
         {
-            if (id != pessoa.Codigo)
-                return BadRequest();
+            var pessoa = await _context.Pessoas.FindAsync(id);
+            if (pessoa == null)
+                return NotFound();
 
-            _context.Entry(pessoa).State = EntityState.Modified;
+            foreach (var prop in updates.EnumerateObject())
+            {
+                var campo = prop.Name.ToLower();
+
+                if (campo == "nome")
+                    pessoa.Nome = prop.Value.GetString() ?? pessoa.Nome;
+                else if (campo == "email")
+                    pessoa.Email = prop.Value.GetString() ?? pessoa.Email;
+                else if (campo == "sexo")
+                    pessoa.Sexo = prop.Value.GetString() ?? pessoa.Sexo;
+                else if (campo == "status")
+                    pessoa.Status = prop.Value.GetString() ?? pessoa.Status;
+            }
+
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 

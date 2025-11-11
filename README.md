@@ -24,7 +24,7 @@ O sistema permite **listar, cadastrar, editar e remover pessoas**, além de exib
 ## Como Executar o Projeto
 
 ###  1. Clonar o repositório
-git clone https://github.com/seuusuario/IgrejaDashboard.git
+git clone https://github.com/rafaelpedro/IgrejaDashboard.git
 cd IgrejaDashboard.Api
 
 ###  2. Configurar e rodar o backend (.NET)

@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using IgrejaDashboard.Api.Models;
 
-// Aqui'é o "elo" entre o código e o banco de dados real, o DbSet vira uma tabela Pessoas no SQL Server
-
 namespace IgrejaDashboard.Api.Data
 {
     public class AppDbContext : DbContext

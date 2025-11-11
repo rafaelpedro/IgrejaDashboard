@@ -42,9 +42,9 @@ namespace IgrejaDashboard.Api.Controllers
 
         // PUT /api/pessoas/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePessoa(int id, [FromBody] Dictionary<string, string> updates)
+        public async Task<IActionResult> UpdatePessoa(int id, [FromBody] PessoaUpdateDTO dto)
         {
-            var updated = await _service.UpdatePartialAsync(id, updates);
+            var updated = await _service.UpdateAsync(id, dto);
             if (!updated) { 
                 return NotFound();
             }

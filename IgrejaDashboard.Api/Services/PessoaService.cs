@@ -77,28 +77,26 @@ namespace IgrejaDashboard.Api.Services
 
 
         // PUT /api/pessoas/{id}
-        public async Task<bool> UpdatePartialAsync(int id, Dictionary<string, string> updates)
+        public async Task<bool> UpdateAsync(int id, PessoaUpdateDTO dto)
         {
             var pessoa = await _context.Pessoas.FindAsync(id);
             if(pessoa == null){
                 return false;
             }
 
-            foreach ( var (campo, valor) in updates)
-            {
-                var lowerCampo = campo.ToLower();
+            if (!string.IsNullOrWhiteSpace(dto.Nome))
+                pessoa.Nome = dto.Nome;
 
-                if(lowerCampo == "nome")
-                    pessoa.Nome = valor;
-                else if (lowerCampo == "email")
-                    pessoa.Email = valor;
-                else if (lowerCampo == "sexo")
-                    pessoa.Sexo = valor;
-                else if (lowerCampo == "status")
-                {
-                    if (Enum.TryParse<SituacaoPessoa>(valor, true, out var statusEnum))
-                        pessoa.Status = statusEnum;
-                }
+            if (!string.IsNullOrWhiteSpace(dto.Email))
+                pessoa.Email = dto.Email;
+
+            if (!string.IsNullOrWhiteSpace(dto.Sexo))
+                pessoa.Sexo = dto.Sexo;
+
+            if (!string.IsNullOrWhiteSpace(dto.Status))
+            {
+                if (Enum.TryParse<SituacaoPessoa>(dto.Status, true, out var situacao))
+                    pessoa.Status = situacao;
             }
 
             await _context.SaveChangesAsync();

@@ -10,13 +10,13 @@ namespace IgrejaDashboard.Api.Data
 
         public DbSet<Pessoa> Pessoas { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Pessoa>()
-                .Property(p => p.Status)
-                .HasConversion<string>();
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+            {
+                modelBuilder.Entity<Pessoa>()
+                    .Property(p => p.Status)
+                 .HasConversion<string>();
 
-            base.OnModelCreating(modelBuilder);
-        }
+                base.OnModelCreating(modelBuilder);
+            }
     }
 }

@@ -25,7 +25,6 @@ O sistema permite **listar, cadastrar, editar e remover pessoas**, além de exib
 
 ###  1. Clonar o repositório
 git clone https://github.com/rafaelpedro/IgrejaDashboard.git
-cd IgrejaDashboard.Api
 
 ###  2. Configurar e rodar o backend (.NET)
  Passo 1: Verifique o arquivo de conexão
@@ -44,6 +43,7 @@ Execute o projeto (Ctrl + F5) e acesse o Swagger:
 
 ###  3. Rodar o frontend (Angular)
 Acesse a pasta do projeto Angular:
+
 cd igreja-dashboard
 
 Instale as dependências:

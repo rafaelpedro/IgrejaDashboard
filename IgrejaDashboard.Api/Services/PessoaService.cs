@@ -33,7 +33,7 @@ namespace IgrejaDashboard.Api.Services
                     Nome = p.Nome,
                     Email = p.Email,
                     Sexo = p.Sexo,
-                    Status = p.Status
+                    Status = p.Status.ToString()
                 })
                 .ToListAsync();
         }
@@ -53,12 +53,13 @@ namespace IgrejaDashboard.Api.Services
         // POST /api/pessoas
         public async Task<PessoaDTO> AddAsync(PessoaCreateDTO dto)
         {
+            Enum.TryParse<SituacaoPessoa>(dto.Status, true, out var statusEnum);
             var pessoa = new Pessoa
             {
                 Nome = dto.Nome,
                 Email = dto.Email,
                 Sexo = dto.Sexo,
-                Status = dto.Status
+                Status = statusEnum
             };
 
             _context.Pessoas.Add(pessoa);
@@ -70,7 +71,7 @@ namespace IgrejaDashboard.Api.Services
                 Nome = pessoa.Nome,
                 Email = pessoa.Email,
                 Sexo = pessoa.Sexo,
-                Status = pessoa.Status
+                Status = pessoa.Status.ToString()
             };
         }
 
@@ -94,7 +95,10 @@ namespace IgrejaDashboard.Api.Services
                 else if (lowerCampo == "sexo")
                     pessoa.Sexo = valor;
                 else if (lowerCampo == "status")
-                    pessoa.Status = valor;
+                {
+                    if (Enum.TryParse<SituacaoPessoa>(valor, true, out var statusEnum))
+                        pessoa.Status = statusEnum;
+                }
             }
 
             await _context.SaveChangesAsync();

@@ -9,7 +9,6 @@ namespace IgrejaDashboard.Api.Models
         public string Nome { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Sexo { get; set; }=string.Empty;
-
-        public string Status { get; set; } = string.Empty;
+        public SituacaoPessoa Status { get; set; } = SituacaoPessoa.Visitante;
     }
 }

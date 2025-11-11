@@ -6,7 +6,7 @@
   <!-- Cards -->
   <div class="row text-white mb-4">
     <div class="col-md-4 mb-3">
-      <div class="card bg-primary shadow-sm text-center">
+      <div class="card card-color-primary bg-opacity-15 shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Total de Membros</h5>
           <h1>{{ totais.total }}</h1>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="col-md-4 mb-3">
-      <div class="card bg-success shadow-sm text-center">
+      <div class="card card-color-success shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Masculinos</h5>
           <h1>{{ totais.masculinos }}</h1>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="col-md-4 mb-3">
-      <div class="card bg-danger shadow-sm text-center">
+      <div class="card card-color-danger shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Femininos</h5>
           <h1>{{ totais.femininos }}</h1>
@@ -55,8 +55,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let pessoa of pessoas">
-        <td>{{ pessoa.nome }}</td>
-        <td>{{ pessoa.email }}</td>
+        <td class="truncate-cell" title="{{ pessoa.nome }}">{{ pessoa.nome }}</td>
+        <td class="truncate-cell" title="{{ pessoa.email }}">{{ pessoa.email }}</td>
         <td>{{ pessoa.sexo }}</td>
         <td>
           <span class="badge bg-secondary">{{ pessoa.status }}</span>

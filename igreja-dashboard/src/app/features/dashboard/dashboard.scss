@@ -10,3 +10,24 @@
   from { transform: translateY(-10px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+.truncate-cell {
+  max-width: 200px;        
+  white-space: nowrap;     
+  overflow: hidden;         
+  text-overflow: ellipsis;  
+}
+
+
+.card-color-primary {
+  background-color: #59afeb;
+  color: #ffffff;
+}
+.card-color-success {
+  background-color: #60c0b2;
+  color: #ffffff;
+}
+.card-color-danger {
+  background-color: #f59f8c;
+  color: #ffffff;
+}

@@ -1,7 +1,7 @@
 # 🧩 Igreja Dashboard
 
-Aplicação web completa de controle de membros de uma igreja, com **backend em .NET 8** e **frontend em Angular 18**.  
-O sistema permite **listar, cadastrar, editar e remover pessoas**, além de exibir um **dashboard com indicadores** de membros, homens e mulheres.
+Aplicação web de controle de membros de uma igreja, com **backend em .NET 8** e **frontend em Angular 18**.  
+O sistema permite **listar, cadastrar, editar e remover pessoas**, além de exibir um **dashboard com indicadores** de total de membros, homens e mulheres.
 
 ---
 
@@ -19,8 +19,6 @@ O sistema permite **listar, cadastrar, editar e remover pessoas**, além de exib
 - TypeScript  
 - Bootstrap 5  
 - RxJS e HttpClient  
-- Estrutura modular (features/core/shared)  
-
 ---
 
 ## ⚙️ Como Executar o Projeto
@@ -57,6 +55,7 @@ ng serve
 Acesse no navegador:
 👉 http://localhost:4200
 
+---
 
 ### ⚡ Comunicação Front ↔ Back
 
@@ -74,6 +73,8 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 app.UseCors("AllowAll");
+
+---
 
 👤 Autor
 Rafael Alencar Pedro

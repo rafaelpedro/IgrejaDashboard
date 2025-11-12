@@ -17,6 +17,11 @@ namespace IgrejaDashboard.Api.Controllers
         }
 
         // GET /api/pessoas
+        /// <summary>
+        /// Retorna a lista de pessoas cadastradas.
+        /// </summary>
+        /// <param name="search">Texto para busca por nome ou e-mail.</param>
+        /// <returns>Lista de pessoas filtradas.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pessoa>>> GetPessoas([FromQuery] string? search)
         {
@@ -25,6 +30,11 @@ namespace IgrejaDashboard.Api.Controllers
         }
 
         // GET /api/pessoas/dashboard
+        /// <summary>
+        /// Retorna os valores correspondentes ao total de membros, homens e mulheres.
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns>Lista de valores</returns>
         [HttpGet("dashboard")]
         public async Task<ActionResult<object>> GetDashboard()
         {
@@ -33,6 +43,15 @@ namespace IgrejaDashboard.Api.Controllers
         }
 
         // POST /api/pessoas
+        /// <summary>
+        /// Adiciona uma nova pessoa ao sistema.
+        /// </summary>
+        /// <param name="dto">Objeto contendo os dados da nova pessoa (nome, e-mail, sexo e status).</param>
+        /// <returns>
+        /// Retorna a pessoa criada com código 201 (Created),
+        /// </returns>
+        /// <response code="201">Pessoa criada com sucesso.</response>
+        /// <response code="400">Dados inválidos ou mal formatados.</response>
         [HttpPost]
         public async Task<ActionResult<Pessoa>> AddPessoa(PessoaCreateDTO dto)
         {
@@ -41,6 +60,18 @@ namespace IgrejaDashboard.Api.Controllers
         }
 
         // PUT /api/pessoas/{id}
+        /// <summary>
+        /// Atualiza parcialmente os dados de uma pessoa existente.
+        /// </summary>
+        /// <param name="id">Id do membro que será atualizado.</param>
+        /// <param name="dto">Objeto contendo os campos a serem atualizados (nome, e-mail, sexo ou status).</param>
+        /// <returns>
+        /// Retorna 204 (No Content) se a atualização for bem-sucedida,
+        /// ou 404 (Not Found) se a pessoa não for encontrada.
+        /// </returns>
+        /// <response code="204">Atualização realizada com sucesso.</response>
+        /// <response code="404">Pessoa não encontrada.</response>
+        /// <response code="400">Erro na requisição (dados inválidos).</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePessoa(int id, [FromBody] PessoaUpdateDTO dto)
         {
@@ -52,6 +83,11 @@ namespace IgrejaDashboard.Api.Controllers
         }
 
         // DELETE /api/pessoas/{id}
+        /// <summary>
+        /// Exclui membro pelo ID
+        /// </summary>
+        /// <param name="id">Id do membro para exclusão</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePessoa(int id)
         {

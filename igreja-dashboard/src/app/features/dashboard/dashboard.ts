@@ -96,17 +96,16 @@ export class DashboardComponent implements OnInit {
 fecharConfirmacao(): void {
   this.mostrarConfirmacao = false;
   this.idParaExcluir = null;
-  this.nomeParaExcluir = '';
-  this.carregarDados();
-  this.toast.show('error', 'Membro excluído.');
-      
+  this.nomeParaExcluir = '';  
 }
 
 confirmarExclusao(): void {
   if (!this.idParaExcluir) return;
-
   this.dashboardService.deletePessoa(this.idParaExcluir).subscribe(() => {
     this.carregarDados();
+    if(this.idParaExcluir){
+      this.toast.show('success', `Membro ${this.nomeParaExcluir} excluído com sucesso!`);
+    }
     this.fecharConfirmacao();
   });
 }

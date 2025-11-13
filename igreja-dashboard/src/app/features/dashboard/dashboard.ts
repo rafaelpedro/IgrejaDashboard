@@ -3,10 +3,11 @@ import { DashboardService } from './dashboard.service';
 import { Pessoa } from '../../models/pessoa.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { ToastComponent } from '../../shared/toast.component';
+import { ToastService } from '../../shared/toast.service';
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ToastComponent],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
 })
@@ -23,7 +24,7 @@ export class DashboardComponent implements OnInit {
   idParaExcluir: number | null = null;
   nomeParaExcluir: string = '';
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private dashboardService: DashboardService, private toast: ToastService) {}
 
   ngOnInit(): void {
     this.carregarDados();
@@ -55,18 +56,30 @@ export class DashboardComponent implements OnInit {
   }
 
   salvarPessoa(): void {
-    if (this.editando) {
-      this.dashboardService.updatePessoa(this.pessoaAtual.codigo, this.pessoaAtual).subscribe(() => {
+  if (this.editando) {
+    this.dashboardService.updatePessoa(this.pessoaAtual.codigo, this.pessoaAtual).subscribe({
+      next: () => {
         this.fecharModal();
         this.carregarDados();
-      });
-    } else {
-      this.dashboardService.addPessoa(this.pessoaAtual).subscribe(() => {
+        this.toast.show('success', 'Membro atualizado com sucesso!');
+      },
+      error: () => {
+        this.toast.show('error', 'Erro ao atualizar o membro.');
+      }
+    });
+  } else {
+    this.dashboardService.addPessoa(this.pessoaAtual).subscribe({
+      next: () => {
         this.fecharModal();
         this.carregarDados();
-      });
-    }
+        this.toast.show('success', 'Membro cadastrado com sucesso!');
+      },
+      error: () => {
+        this.toast.show('error', 'Erro ao cadastrar novo membro.');
+      }
+    });
   }
+}
 
   // excluirPessoa(id: number): void {
   //   if (confirm('Tem certeza que deseja excluir este membro?')) {
@@ -84,6 +97,9 @@ fecharConfirmacao(): void {
   this.mostrarConfirmacao = false;
   this.idParaExcluir = null;
   this.nomeParaExcluir = '';
+  this.carregarDados();
+  this.toast.show('error', 'Membro excluído.');
+      
 }
 
 confirmarExclusao(): void {

@@ -13,11 +13,15 @@ import { FormsModule } from '@angular/forms';
 export class DashboardComponent implements OnInit {
    pessoas: Pessoa[] = [];
   totais = { total: 0, masculinos: 0, femininos: 0 };
-  searchTerm = '';
+  busca = '';
 
   mostrarModal = false;
   editando = false;
   pessoaAtual: Pessoa = this.criarNovaPessoa();
+
+  mostrarConfirmacao = false;
+  idParaExcluir: number | null = null;
+  nomeParaExcluir: string = '';
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -31,7 +35,7 @@ export class DashboardComponent implements OnInit {
   }
 
   buscar(): void {
-    this.dashboardService.getPessoas(this.searchTerm).subscribe(p => this.pessoas = p);
+    this.dashboardService.getPessoas(this.busca).subscribe(p => this.pessoas = p);
   }
 
   abrirModal(): void {
@@ -64,11 +68,32 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  excluirPessoa(id: number): void {
-    if (confirm('Tem certeza que deseja excluir este membro?')) {
-      this.dashboardService.deletePessoa(id).subscribe(() => this.carregarDados());
-    }
-  }
+  // excluirPessoa(id: number): void {
+  //   if (confirm('Tem certeza que deseja excluir este membro?')) {
+  //     this.dashboardService.deletePessoa(id).subscribe(() => this.carregarDados());
+  //   }
+  // }
+
+  excluirPessoa(id: number, nome: string): void {
+  this.mostrarConfirmacao = true;
+  this.idParaExcluir = id;
+  this.nomeParaExcluir = nome;
+}
+
+fecharConfirmacao(): void {
+  this.mostrarConfirmacao = false;
+  this.idParaExcluir = null;
+  this.nomeParaExcluir = '';
+}
+
+confirmarExclusao(): void {
+  if (!this.idParaExcluir) return;
+
+  this.dashboardService.deletePessoa(this.idParaExcluir).subscribe(() => {
+    this.carregarDados();
+    this.fecharConfirmacao();
+  });
+}
 
   private criarNovaPessoa(): Pessoa {
     return { codigo: 0, nome: '', email: '', sexo: '', status: '' };

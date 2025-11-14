@@ -43,7 +43,8 @@ namespace IgrejaDashboard.Api.Services
         public async Task<object> GetDashboardAsync()
         {
             var total = await _context.Pessoas.CountAsync();
-            var masculinos = await _context.Pessoas.CountAsync(p => p.Sexo == "Masculino");
+            // var total = await _context.Pessoas.CountAsync(p => p.Status == SituacaoPessoa.Membro);
+            var masculinos = await _context.Pessoas.CountAsync(p => p.Sexo == "Masculino" );
             var femininos = await _context.Pessoas.CountAsync(p => p.Sexo == "Feminino");
 
             return new { total, masculinos, femininos };

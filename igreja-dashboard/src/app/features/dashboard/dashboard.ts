@@ -81,12 +81,6 @@ export class DashboardComponent implements OnInit {
   }
 }
 
-  // excluirPessoa(id: number): void {
-  //   if (confirm('Tem certeza que deseja excluir este membro?')) {
-  //     this.dashboardService.deletePessoa(id).subscribe(() => this.carregarDados());
-  //   }
-  // }
-
   excluirPessoa(id: number, nome: string): void {
   this.mostrarConfirmacao = true;
   this.idParaExcluir = id;

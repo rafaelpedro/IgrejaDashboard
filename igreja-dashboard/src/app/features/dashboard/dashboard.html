@@ -35,7 +35,7 @@
       <input type="text" class="form-control" [(ngModel)]="busca" placeholder="Pesquisar por nome ou e-mail">
       <button class="btn btn-outline-primary" (click)="buscar()">Buscar</button>
     </div>
-    <button class="btn btn-primary" (click)="abrirModal()">
+    <button class="btn btn-primary" (click)="novaPessoa()">
       <i class="bi bi-person-plus"></i> Adicionar Membro
     </button>
   </div>
@@ -70,7 +70,7 @@
     </tbody>
   </table>
 
-  <div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': mostrarModal }">
+  <!-- <div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': mostrarModal }">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -122,7 +122,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Dialogo Confirmação de Exclusão -->
 <div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': mostrarConfirmacao }">

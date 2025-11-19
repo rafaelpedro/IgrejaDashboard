@@ -5,10 +5,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastComponent } from '../../shared/toast.component';
 import { ToastService } from '../../shared/toast.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, FormsModule, ToastComponent],
+  imports: [CommonModule, FormsModule, ToastComponent, ReactiveFormsModule, RouterLink, RouterModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
 })
@@ -18,8 +21,6 @@ export class DashboardComponent implements OnInit {
   busca = '';
 
   mostrarModal = false;
-  editando = false;
-  pessoaAtual: Pessoa = this.criarNovaPessoa();
 
   mostrarConfirmacao = false;
   idParaExcluir: number | null = null;
@@ -44,23 +45,6 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getPessoas(this.busca).subscribe(p => this.pessoas = p);
   }
 
-  // abrirModal(): void {
-  //   this.mostrarModal = true;
-  //   this.editando = false;
-  //   this.pessoaAtual = this.criarNovaPessoa();
-  // }
-
-  // fecharModal(): void {
-  //   this.mostrarModal = false;
-  // }
-
-  // editarPessoa(pessoa: Pessoa): void {
-  //   this.pessoaAtual = { ...pessoa };
-  //   this.mostrarModal = true;
-  //   this.editando = true;
-  // }
-
-
   novaPessoa(): void {
     this.router.navigate(['/membros/novo']);
   }
@@ -68,32 +52,6 @@ export class DashboardComponent implements OnInit {
   editarPessoa(p: Pessoa): void {
     this.router.navigate([`/membros/editar/${p.codigo}`]);
   }
-
-  // salvarPessoa(): void {
-  //   if (this.editando) {
-  //     this.dashboardService.updatePessoa(this.pessoaAtual.codigo, this.pessoaAtual).subscribe({
-  //       next: () => {
-  //         this.fecharModal();
-  //         this.carregarDados();
-  //         this.toast.show('success', 'Membro atualizado com sucesso!');
-  //       },
-  //       error: () => {
-  //         this.toast.show('error', 'Erro ao atualizar o membro.');
-  //       }
-  //     });
-  //   } else {
-  //     this.dashboardService.addPessoa(this.pessoaAtual).subscribe({
-  //       next: () => {
-  //         this.fecharModal();
-  //         this.carregarDados();
-  //         this.toast.show('success', 'Membro cadastrado com sucesso!');
-  //       },
-  //       error: () => {
-  //         this.toast.show('error', 'Erro ao cadastrar novo membro.');
-  //       }
-  //     });
-  //   }
-  // }
 
   excluirPessoa(id: number, nome: string): void {
     this.mostrarConfirmacao = true;
@@ -118,7 +76,4 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  private criarNovaPessoa(): Pessoa {
-    return { codigo: 0, nome: '', email: '', sexo: '', status: '' };
-  }
 }

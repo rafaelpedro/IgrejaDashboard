@@ -35,7 +35,7 @@
       <input type="text" class="form-control" [(ngModel)]="busca" placeholder="Pesquisar por nome ou e-mail">
       <button class="btn btn-outline-primary" (click)="buscar()">Buscar</button>
     </div>
-    <button class="btn btn-primary" (click)="novaPessoa()">
+    <button class="btn btn-primary" routerLink="/membros/novo">
       <i class="bi bi-person-plus"></i> Adicionar Membro
     </button>
   </div>
@@ -59,7 +59,7 @@
           <span class="badge bg-secondary">{{ pessoa.status }}</span>
         </td>
         <td>
-          <button class="btn btn-sm btn-outline-warning me-2" (click)="editarPessoa(pessoa)">
+          <button class="btn btn-sm btn-outline-warning me-2" [routerLink]="['/membros/editar', pessoa.codigo]">
             <i class="bi bi-pencil"></i>
           </button>
           <button class="btn btn-sm btn-outline-danger" (click)="excluirPessoa(pessoa.codigo, pessoa.nome)">
@@ -70,61 +70,6 @@
     </tbody>
   </table>
 
-  <!-- <div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': mostrarModal }">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{ editando ? 'Editar Pessoa' : 'Adicionar Pessoa' }}</h5>
-          <button type="button" class="btn-close" (click)="fecharModal()"></button>
-        </div>
-        <div class="modal-body">
-          <form #formPessoa="ngForm" (ngSubmit)="salvarPessoa()">
-            <div class="mb-3">
-              <label class="form-label">Nome</label>
-              <input type="text" class="form-control" [(ngModel)]="pessoaAtual.nome" name="nome" required #nome="ngModel">
-              <div *ngIf="nome.invalid && nome.touched" class="text-danger small">O nome é obrigatório.</div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">E-mail</label>
-              <input type="email" class="form-control" [(ngModel)]="pessoaAtual.email" name="email" required email #email="ngModel">
-              <div *ngIf="email.invalid && email.touched" class="text-danger small">
-                <div *ngIf="email.errors?.['required']">O e-mail é obrigatório.</div>
-                <div *ngIf="email.errors?.['email']">Formato de e-mail inválido.</div>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Sexo</label>
-              <select class="form-select" [(ngModel)]="pessoaAtual.sexo" name="sexo" required #sexo="ngModel">
-                <option value="">Selecione</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Feminino">Feminino</option>
-              </select>
-              <div *ngIf="sexo.invalid && sexo.touched" class="text-danger small">O Sexo é obrigatório.</div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Status</label>
-              <select class="form-select" [(ngModel)]="pessoaAtual.status" name="status" required #status="ngModel">
-                <option value="">Selecione</option>
-                <option value="Membro">Membro</option>
-                <option value="Visitante">Visitante</option>
-              </select>
-              <div *ngIf="status.invalid && status.touched" class="text-danger small">O Status é obrigatório.</div>
-            </div>
-
-            <div class="text-end">
-              <button type="submit" class="btn btn-success me-2" [disabled]="formPessoa.invalid">{{ editando ? 'Salvar' : 'Adicionar' }}</button>
-              <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- Dialogo Confirmação de Exclusão -->
 <div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': mostrarConfirmacao }">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-danger">

@@ -1,62 +1,49 @@
 <div class="container mt-4">
 
-  <h3>{{ editando ? 'Editar Membro' : 'Novo Membro' }}</h3>
-  <hr>
+  <h2>{{editando ? 'Editar Membro' : 'Novo Membro'}}</h2>
 
-  <form #formPessoa="ngForm" (ngSubmit)="salvar()">
+  <form [formGroup]="form" (ngSubmit)="salvar()">
 
     <div class="mb-3">
       <label class="form-label">Nome</label>
-      <input type="text" class="form-control" 
-             [(ngModel)]="pessoa.nome" name="nome" required #nome="ngModel">
-      <div *ngIf="nome.invalid && nome.touched" class="text-danger small">
-        O nome é obrigatório.
-      </div>
+      <input class="form-control" formControlName="nome" [ngClass]="{ 'is-invalid': verificaErro('nome')}">
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3" [ngClass]="">
       <label class="form-label">E-mail</label>
-      <input type="email" class="form-control"
-             [(ngModel)]="pessoa.email" name="email" required email #email="ngModel">
-      <div *ngIf="email.invalid && email.touched" class="text-danger small">
-        <div *ngIf="email.errors?.['required']">O e-mail é obrigatório.</div>
-        <div *ngIf="email.errors?.['email']">Formato inválido.</div>
-      </div>
+      <input class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': verificaErro('email')}">
     </div>
 
     <div class="mb-3">
       <label class="form-label">Sexo</label>
-      <select class="form-select" [(ngModel)]="pessoa.sexo" name="sexo" required #sexo="ngModel">
+      <select class="form-select" formControlName="sexo" [ngClass]="{ 'is-invalid': verificaErro('sexo')}">
         <option value="">Selecione</option>
         <option value="Masculino">Masculino</option>
         <option value="Feminino">Feminino</option>
       </select>
-      <div *ngIf="sexo.invalid && sexo.touched" class="text-danger small">
-        O sexo é obrigatório.
-      </div>
     </div>
 
     <div class="mb-3">
       <label class="form-label">Status</label>
-      <select class="form-select" [(ngModel)]="pessoa.status" name="status" required #status="ngModel">
+      <select class="form-select" formControlName="status" [ngClass]="{ 'is-invalid': verificaErro('status')}">
         <option value="">Selecione</option>
         <option value="Membro">Membro</option>
         <option value="Visitante">Visitante</option>
       </select>
-      <div *ngIf="status.invalid && status.touched" class="text-danger small">
-        O status é obrigatório.
-      </div>
     </div>
 
-    <button class="btn btn-success" [disabled]="formPessoa.invalid">
-      {{ editando ? 'Salvar' : 'Cadastrar' }}
-    </button>
+    <div class="mt-4 d-flex gap-2">
+      <button class="btn btn-success" type="submit" [disabled]="form.invalid">
+        Salvar
+      </button>
 
-    <button class="btn btn-secondary ms-2" (click)="cancelar()" type="button">
-      Cancelar
-    </button>
+      <button class="btn btn-secondary" type="button" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
 
   </form>
+
 </div>
 
 <app-toast></app-toast>

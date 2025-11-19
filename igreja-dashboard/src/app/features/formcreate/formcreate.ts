@@ -17,7 +17,7 @@ import { RouterModule } from '@angular/router';
 export class Formcreate implements OnInit{
 
     form!: FormGroup;
-    editando: Boolean = false;
+    editando: boolean = false;
     id!: number;
 
     constructor(

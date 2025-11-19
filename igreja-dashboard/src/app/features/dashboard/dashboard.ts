@@ -6,12 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { ToastComponent } from '../../shared/toast.component';
 import { ToastService } from '../../shared/toast.service';
 import { Router, RouterLink } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, FormsModule, ToastComponent, ReactiveFormsModule, RouterLink, RouterModule],
+  imports: [CommonModule, FormsModule, ToastComponent, RouterLink, RouterModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
 })
@@ -19,9 +18,6 @@ export class DashboardComponent implements OnInit {
   pessoas: Pessoa[] = [];
   totais = { total: 0, masculinos: 0, femininos: 0 };
   busca = '';
-
-  mostrarModal = false;
-
   mostrarConfirmacao = false;
   idParaExcluir: number | null = null;
   nomeParaExcluir: string = '';
@@ -43,10 +39,6 @@ export class DashboardComponent implements OnInit {
 
   buscar(): void {
     this.dashboardService.getPessoas(this.busca).subscribe(p => this.pessoas = p);
-  }
-
-  novaPessoa(): void {
-    this.router.navigate(['/membros/novo']);
   }
 
   editarPessoa(p: Pessoa): void {

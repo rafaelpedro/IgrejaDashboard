@@ -2,6 +2,7 @@
 using IgrejaDashboard.Api.Models;
 using IgrejaDashboard.Api.Services;
 using IgrejaDashboard.Api.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace IgrejaDashboard.Api.Controllers
 {
@@ -98,5 +99,24 @@ namespace IgrejaDashboard.Api.Controllers
             }
             return NoContent();
         }
+
+        // GET /api/pessoas/{id}
+        /// <summary>
+        /// Retorna uma pessoa pelo ID.
+        /// </summary>
+        /// <param name="id">Id do membro buscado</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Pessoa>> GetPessoaById(int id)
+        {
+            var pessoa = await _service.GetByIdAsync(id);
+
+            if (pessoa == null)
+                return NotFound();
+
+            return Ok(pessoa);
+        }
+
+
     }
 }

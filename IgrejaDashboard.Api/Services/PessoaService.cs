@@ -117,5 +117,11 @@ namespace IgrejaDashboard.Api.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<Pessoa?> GetByIdAsync(int id)
+        {
+            return await _context.Pessoas.FirstOrDefaultAsync(p => p.Codigo == id);
+        }
+
     }
 }

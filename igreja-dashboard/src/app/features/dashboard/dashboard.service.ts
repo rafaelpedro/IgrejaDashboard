@@ -31,4 +31,9 @@ export class DashboardService {
   deletePessoa(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getPessoa(id: number): Observable<Pessoa> {
+  return this.http.get<Pessoa>(`${this.apiUrl}/${id}`);
+}
+
 }

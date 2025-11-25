@@ -11,21 +11,12 @@ export const membroExisteGuard: CanActivateFn = (route: ActivatedRouteSnapshot) 
 
   const id = Number(route.paramMap.get('id'));
 
-  if (!id) {
-    toast.show('error', 'ID inválido.');
-    router.navigate(['/']);
-    return of(false);
-  }
-
   return service.getPessoa(id).pipe(
-    map(pessoa => {
-      if (pessoa) {
-        return true;
-      } else {
-        toast.show('error', 'Membro não encontrado.');
-        router.navigate(['/']);
-        return false;
-      }
+    map((pessoa) => {
+      if (pessoa) return true;
+      toast.show('error', 'Membro não encontrado.');
+      router.navigate(['/']);
+      return false;
     }),
     catchError(() => {
       toast.show('error', 'Erro ao buscar membro.');

@@ -118,6 +118,7 @@ namespace IgrejaDashboard.Api.Services
             return true;
         }
 
+        // GET /api/pessoas/{id} -> para buscar enquanto carrega a rota
         public async Task<Pessoa?> GetByIdAsync(int id)
         {
             return await _context.Pessoas.FirstOrDefaultAsync(p => p.Codigo == id);

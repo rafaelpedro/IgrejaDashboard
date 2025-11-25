@@ -54,7 +54,6 @@ export class Formcreate implements OnInit {
   carregarPessoa() {
     this.dashboardService.getPessoa(this.id).subscribe({
       next: pessoa => {
-        console.log('DADOS DO BACKEND', pessoa);
         this.form.patchValue(pessoa);
       },
       error: () => {
